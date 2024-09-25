@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Untitled</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مشاركة الفيديو</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        iframe, video {
+            width: 70%;
+            height: auto;
+            margin-top: 20px;
+        }
+        #shareLink {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>فيديوهات العوض 
+      لمشاركة الفيديو عن طريقنا يااصلي </h1>
+
+    <label for="videoLink">أدخل رابط الفيديو يامعلم:</label>
+    <input type="text" id="videoLink" placeholder="أدخل رابط الفيديو هنا">
+    <br>
+    <button onclick="loadVideo()">عرض الفيديو</button>
+
+    <h3>الفيديو الخاص بك هنا يا مكتب:</h3>
+    <div id="videoContainer"></div>
+
+    <br>
+    <button id="shareButton" onclick="shareVideo()" style="display:none;">مشاركة الفيديو</button>
+    <p id="shareLink"></p>
+
+    <script>
+        function loadVideo() {
+            var videoLink = document.getElementById('videoLink').value;
+            var videoContainer = document.getElementById('videoContainer');
+            videoContainer.innerHTML = ''; // إفراغ الحاوية قبل إضافة فيديو جديد
+            
+            if (videoLink) {
+                // إذا كان الرابط من YouTube
+                if (videoLink.includes("youtube.com") || videoLink.includes("youtu.be")) {
+                    var videoID;
+                    if (videoLink.includes("youtu.be")) {
+                        videoID = videoLink.split("/")[3]; // استخراج معرف الفيديو من youtu.be
+                    } else {
+                        var urlParams = new URLSearchParams(new URL(videoLink).search);
+                        videoID = urlParams.get('v'); // استخراج معرف الفيديو من youtube.com
+                    }
+                    var embedLink = "https://www.youtube.com/embed/" + videoID;
+                    videoContainer.innerHTML = `<iframe src="${embedLink}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                }
+                // إذا كان الرابط من Google Drive
+                else if (videoLink.includes("drive.google.com")) {
+                    var fileID = videoLink.split("/d/")[1].split("/")[0];
+                    var driveLink = "https://drive.google.com/uc?export=download&id=" + fileID;
+                    videoContainer.innerHTML = `<video src="${driveLink}" controls></video>`;
+                } 
+                // روابط فيديو أخرى (إذا كانت مباشرة)
+                else {
+                    videoContainer.innerHTML = `<video src="${videoLink}" controls></video>`;
+                }
+
+                document.getElementById('shareButton').style.display = 'inline-block'; // إظهار زر المشاركة
+            } else {
+                alert("الرجاء إدخال رابط فيديو");
+            }
+        }
+
+        function shareVideo() {
+            var videoLink = document.getElementById('videoLink').value;
+            var shareText = `شارك هذا الفيديو: ${window.location.href}?video=${encodeURIComponent(videoLink)}`;
+            document.getElementById('shareLink').textContent = shareText;
+            document.getElementById('shareLink').style.display = 'block';
+        }
+
+        // التحقق من وجود رابط فيديو في عنوان URL
+        window.onload = function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var videoParam = urlParams.get('video');
+            if (videoParam) {
+                document.getElementById('videoLink').value = decodeURIComponent(videoParam);
+                loadVideo();
+            }
+        }
+    </script>
+
+</body>
+</html> 
+
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مشاركة الفيديو</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #ffffff;
+            color: #000000;
+        }
+        iframe, video {
+            width: 70%;
+            height: auto;
+            margin-top: 20px;
+        }
+        #shareLink {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>مشاركة الفيديو هنا تاني يا مكتب</h1>
+
+    <label for="videoLink">أدخل رابط الفيديو:</label>
+    <input type="text" id="videoLink" placeholder="أدخل رابط الفيديو هنا">
+    <br>
+    <button onclick="loadVideo()">عرض الفيديو</button>
+
+    <h3>الفيديو الخاص بك:</h3>
+    <div id="videoContainer"></div>
+
+    <br>
+    <button id="shareButton" onclick="shareVideo()" style="display:none;">مشاركة الفيديو</button>
+    <p id="shareLink"></p>
+
+    <!-- قسم لتغيير الألوان -->
+    <h3>تغيير ألوان الصفحة</h3>
+    <label for="bgColor">لون الخلفية:</label>
+    <input type="color" id="bgColor" value="#ffffff" onchange="changeColors()">
+    <br>
+    <label for="textColor">لون النص:</label>
+    <input type="color" id="textColor" value="#000000" onchange="changeColors()">
+    <br>
+    <label for="videoColor">لون خلفية الفيديو:</label>
+    <input type="color" id="videoColor" value="#ffffff" onchange="changeColors()">
+    <br><br>
+
+    <script>
+        function loadVideo() {
+            var videoLink = document.getElementById('videoLink').value;
+            var videoContainer = document.getElementById('videoContainer');
+            videoContainer.innerHTML = ''; // إفراغ الحاوية قبل إضافة فيديو جديد
+            
+            if (videoLink) {
+                // إذا كان الرابط من YouTube
+                if (videoLink.includes("youtube.com") || videoLink.includes("youtu.be")) {
+                    var videoID;
+                    if (videoLink.includes("youtu.be")) {
+                        videoID = videoLink.split("/")[3]; // استخراج معرف الفيديو من youtu.be
+                    } else {
+                        var urlParams = new URLSearchParams(new URL(videoLink).search);
+                        videoID = urlParams.get('v'); // استخراج معرف الفيديو من youtube.com
+                    }
+                    var embedLink = "https://www.youtube.com/embed/" + videoID;
+                    videoContainer.innerHTML = `<iframe src="${embedLink}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+                }
+                // إذا كان الرابط من Google Drive
+                else if (videoLink.includes("drive.google.com")) {
+                    var fileID = videoLink.split("/d/")[1].split("/")[0];
+                    var driveLink = "https://drive.google.com/uc?export=download&id=" + fileID;
+                    videoContainer.innerHTML = `<video src="${driveLink}" controls></video>`;
+                } 
+                // روابط فيديو أخرى (إذا كانت مباشرة)
+                else {
+                    videoContainer.innerHTML = `<video src="${videoLink}" controls></video>`;
+                }
+
+                document.getElementById('shareButton').style.display = 'inline-block'; // إظهار زر المشاركة
+            } else {
+                alert("الرجاء إدخال رابط فيديو");
+            }
+        }
+
+        function shareVideo() {
+            var videoLink = document.getElementById('videoLink').value;
+            var shareText = `شارك هذا الفيديو: ${window.location.href}?video=${encodeURIComponent(videoLink)}`;
+            document.getElementById('shareLink').textContent = shareText;
+            document.getElementById('shareLink').style.display = 'block';
+        }
+
+        // التحقق من وجود رابط فيديو في عنوان URL
+        window.onload = function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var videoParam = urlParams.get('video');
+            if (videoParam) {
+                document.getElementById('videoLink').value = decodeURIComponent(videoParam);
+                loadVideo();
+            }
+        }
+
+        // تغيير الألوان بناءً على اختيارات المستخدم
+        function changeColors() {
+            var bgColor = document.getElementById('bgColor').value;
+            var textColor = document.getElementById('textColor').value;
+            var videoColor = document.getElementById('videoColor').value;
+
+            document.body.style.backgroundColor = bgColor;
+            document.body.style.color = textColor;
+            document.getElementById('videoContainer').style.backgroundColor = videoColor;
+        }
+    </script>
+
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
